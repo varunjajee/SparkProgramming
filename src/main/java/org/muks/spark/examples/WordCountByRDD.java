@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class WordCountByRDD {
     public static void main(String[] args) {
-        String inputFilePath = "/Users/mukthara/Data/git/personal/SparkProgramming/src/main/resources/word_count.txt";
+        String inputFilePath = "/Users/varunjajee/Data/spark/javaProgrammingGit/SparkProgramming/src/main/resources/word_count.txt";
 
         SparkConf sparkConf =
                 new SparkConf()
@@ -31,10 +31,9 @@ public class WordCountByRDD {
                     .flatMap(s -> Arrays.asList(s.split(" ")).iterator())
                     .mapToPair(word -> new Tuple2<>(word, 1))
                     .reduceByKey((a, b) -> a + b);
-
-
-            countData.saveAsTextFile("/Users/mukthara/Data/git/personal/SparkProgramming/CountDataOutput");
-
+            countData.saveAsTextFile("/Users/varunjajee/Data/spark/javaProgrammingGit/SparkProgramming/CountDataOutput");
+            // run "cat part*" from CountDataOutput folder.
+            //CountDataOutput needs to be deleted every time before running the application.
 
         } catch (Exception e) {
             e.printStackTrace();
