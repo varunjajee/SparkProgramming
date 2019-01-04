@@ -35,6 +35,8 @@ public class WordCountByRDD {
             // run "cat part*" from CountDataOutput folder.
             //CountDataOutput needs to be deleted every time before running the application.
 
+            // none
+
         } catch (Exception e) {
             e.printStackTrace();
 
