@@ -7,7 +7,19 @@ import org.apache.spark.api.java.JavaSparkContext;
 import scala.Tuple2;
 
 public class SpaEx2Anatomy {
+    public static void main(String[] args) {
+        SparkConf sparkConf =
+                new SparkConf()
+                        .setMaster("local[*]")
+                        .setAppName("Counter")
+                        .set("spark.worker.cleanup.enabled", "true");
 
-
-
+        JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
+        String inputFilePath = "/Users/varunjajee/Data/spark/javaProgrammingGit/SparkProgramming/src/main/resources/word_count.txt";
+        int iPartitions = 3;
+        JavaRDD<String> inputFileRDDs;
+        inputFileRDDs = sparkContext.textFile(inputFilePath, iPartitions);
+        long count = inputFileRDDs.count();
+        System.out.println(count);
+    }
 }
