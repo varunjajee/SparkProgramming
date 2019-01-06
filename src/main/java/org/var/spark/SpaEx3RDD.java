@@ -20,7 +20,7 @@ public class SpaEx3RDD {
         JavaRDD<String> inputFileRDDs;
         inputFileRDDs = sparkContext.textFile(inputFilePath, iPartitions);
         long count = inputFileRDDs.count();
-        System.out.println(count);
+        System.out.println("\n\n\n No of lines in file " + count);
     }
 
 
