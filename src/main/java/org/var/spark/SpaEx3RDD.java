@@ -1,3 +1,4 @@
+
 package org.var.spark;
 
 import org.apache.spark.SparkConf;
@@ -8,6 +9,7 @@ import scala.Tuple2;
 
 import java.util.Arrays;
 
+
 /*
 basic example of RDDs and pair RDDS
 
@@ -17,6 +19,7 @@ basic example of RDDs and pair RDDS
 4. Reducebykey
 
 * */
+
 
 public class SpaEx3RDD {
     public static void main(String[] args) {
@@ -42,6 +45,21 @@ public class SpaEx3RDD {
         FlatMap(inputFileRDDs);
 
         PairRDD(inputFileRDDs);
+
+        // UNION
+        JOINRDD(sparkContext);
+
+        //Replace or Filter
+        ReplaceRDDContent(sparkContext);
+
+        //
+        // ACTIONS
+        //
+        System.out.println("Action Count");
+        System.out.println(inputFileRDDs.count());
+        //
+        //inputFileRDDs = inputFileRDDs.flatMap(x -> Arrays.asList(x.split(","))).filter(value->value=="7698");
+        //JavaRDD<String> newFlatRDD = inputFileRDDs.flatMap(s -> Arrays.asList(s.split(",")).iterator());
     }
 
     private static void IntMapRDDTest(JavaSparkContext sparkContext)
@@ -69,9 +87,31 @@ public class SpaEx3RDD {
         reduceByKeyRDD.foreach(data -> System.out.println("Key2= "+data._1() + " Value2= "+data._2()));
 
     }
+    // UNION
+    private static void JOINRDD(JavaSparkContext sparkContext)
+    {
+        JavaRDD<Integer> intRDD1 = sparkContext.parallelize(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
+        JavaRDD<Integer> intRDD2 = sparkContext.parallelize(Arrays.asList(11,12,13,14));
 
+        JavaRDD<Integer> res = intRDD1.union(intRDD2);
 
+        res.foreach(x -> System.out.println("test Join RDDs "+ x));
+    }
 
+    private static void ReplaceRDDContent(JavaSparkContext sparkContext)
+    {
+        JavaRDD<Integer> intRDD1 = sparkContext.parallelize(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
 
+        //JavaRDD<Integer> newRDD = intRDD1.map(x -> {if(x == 4 || x == 5){ x = 0;} } );
 
+        JavaRDD<Integer> filterRDD1 = intRDD1.filter(x -> x > 4);
+        // Filter
+        filterRDD1.foreach(x->System.out.println(" test Filter RDD" + x ));
+
+        JavaRDD<Integer> replaceRDD = intRDD1.map(x -> {if (x>=5){ return 0;}else { return 1;}});
+
+        replaceRDD.foreach(x -> System.out.println(" Replace RDD " + x ));
+
+    }
 }
+
