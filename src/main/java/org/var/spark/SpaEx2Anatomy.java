@@ -20,6 +20,7 @@ public class SpaEx2Anatomy {
         JavaRDD<String> inputFileRDDs;
         inputFileRDDs = sparkContext.textFile(inputFilePath, iPartitions);
         long count = inputFileRDDs.count();
+        System.out.println("word count example : ");
         System.out.println(count);
     }
 }
